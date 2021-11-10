@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="css/register.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Poppins&display=swap" rel="stylesheet">	</head>
+	<body>
+		<div id="nav">
+			<ul>
+				<li><a href="index.html">Register</a></li>
+				<li><a href="login.html">Login</a></li>
+			</ul>
+		</div>
+		<h1 id="heading">Register your Account</h1>
+		<div id="form-container">
+			<form id="reg-form">
+				<label id="usernameLabel">Username</label>
+				<br>
+				<input type="text" autocomplete="off" id="username" placeholder="Enter your Username" />
+				<br>
+				<label id="passwordLabel">Password</label>
+				<br>
+				<input type="password" autocomplete="off" id="password" placeholder="Enter a Password" />
+				<br>
+				<label id="phoneLabel">Phone</label>
+				<br>
+				<input type="number" autocomplete="off" id="phone" placeholder="Enter Phone Number" />
+				<br>
+				<input type="submit" id="btn-grad" value="Register" />
+			</form>
+		</div>
+
+		<script>
+			const form = document.getElementById("reg-form");
+			
+			form.addEventListener("submit", registerUser);
+
+			async function registerUser(event){
+				event.preventDefault();
+				const username = document.getElementById("username").value;
+				const password = document.getElementById("password").value;
+
+				const result = await fetch('/api/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						username,
+						password
+					})
+				}).then(res => res.json())
+
+				if(result.status === "ok"){
+					alert("successfully registered")
+				}else{
+					alert(result.error)
+				}
+				
+				console.log(result)
+			}
+		</script>
+		
+	</body>
+</html>
+
+

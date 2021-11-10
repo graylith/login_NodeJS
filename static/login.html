@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login</title>
+		<link rel="stylesheet" href="css/login.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Poppins&display=swap" rel="stylesheet">	</head>
+	<body>
+		<div id="nav">
+			<ul>
+				<li><a href="index.html">Register</a></li>
+				<li><a href="login.html">Login</a></li>
+			</ul>
+		</div>
+		
+		<h1 id="heading">Login</h1>
+		
+		<div id="form-container">
+			<form id="login">
+				<label id="usernameLabel">Username</label>
+				<br>
+				<input type="text" autocomplete="off" id="username" placeholder="Username" />
+				<br>
+				<label id="passwordLabel">Password</label>
+				<br>
+				<input type="password" autocomplete="off" id="password" placeholder="Password" />
+				<br>
+				
+				<input type="submit" id="btn-grad" value="Login" />
+				<div id="forgot"><a href="change-password.html">Forgot Password ??</a></div>
+			</form>
+		</div>
+		<script>
+			const form = document.getElementById("login");
+			
+			form.addEventListener("submit", loginUser);
+
+			async function loginUser(event){
+				event.preventDefault();
+				const username = document.getElementById("username").value;
+				const password = document.getElementById("password").value;
+
+				const result = await fetch('/api/login', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						username,
+						password
+					})
+				}).then(res => res.json())
+
+				if(result.status === "ok"){
+					console.log("got the token :", result.data)
+					localStorage.setItem("token", result.data)
+					alert("successfully logged in")
+				}else{
+					alert(result.error)
+				}
+				
+				console.log(result)
+			}
+		</script>
+	</body>
+</html>
